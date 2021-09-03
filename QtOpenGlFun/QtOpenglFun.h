@@ -96,6 +96,11 @@ private:
     glm::vec2 mousePos;
     bool viewUpdated = false;
 
+
+    glm::mat4 mModel;
+    glm::mat4 mView;
+    glm::mat4 mProjection;
+
 };
 
 

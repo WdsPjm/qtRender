@@ -17,8 +17,6 @@ uint32_t height = 1080;
 //#include <thread>
 QtOpenglFun::QtOpenglFun() {
     mCamera = std::make_shared<Camera>();
-    std::cout << "firstmCamera" << &mCamera << std::endl;
-    IniCamearMat();
 
 }
 
@@ -31,11 +29,12 @@ void QtOpenglFun::QtGLinit(HWND hwnd) {
     mMyOpengl = std::make_shared<MyOpenGl>();
     mGlContex->CreateGLContex();
     mMyOpengl->OpenGlInit();
+  
 
 }
 
 void QtOpenglFun::QtRender() {
-
+   
     if (!mRenderTypes.size())
     {
         defaultRender();
@@ -214,7 +213,7 @@ void QtOpenglFun::setmixValue(const float& mixValue) {
 void QtOpenglFun::defaultRender() {
     QtClearColor(0.3f, 0.5f, 0.4f, 1.0f);
     SwapBuffers(mGlContex->mdc);
-
+    IniCamearMat();
 }
 
 void QtOpenglFun::buildShader(std::string& vertShaderPath, std::string& framShaderPath) {
@@ -277,33 +276,28 @@ float frameTimer = 1.0f;
 void QtOpenglFun::setMat() {
 
     auto tStart = std::chrono::high_resolution_clock::now();
-
-    glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-    glm::mat4 view = glm::mat4(1.0f);
-    glm::mat4 projection = glm::mat4(1.0f);
-   // if (viewUpdated)
+    if (viewUpdated)
     {
         //	viewUpdated = false;
-        projection = mCamera->matrices.perspective;
-        view = mCamera->matrices.view;
+        mProjection = mCamera->matrices.perspective;
+        mView = mCamera->matrices.view;
     }
 
+	
+    mShader->setMat4("model", mModel);
+    mShader->setMat4("view", mView);
+    mShader->setMat4("projection", mProjection);
 
-    model = glm::mat4(1.0f);
-    mShader->setMat4("model", model);
-    mShader->setMat4("view", view);
-    mShader->setMat4("projection", projection);
 
-
-    frameCounter++;
-    auto tEnd = std::chrono::high_resolution_clock::now();
-    auto tDiff = std::chrono::duration<double, std::milli>(tEnd - tStart).count();
-    frameTimer = (float)tDiff / 1000.0f;
-    mCamera->update(frameTimer);
-    /* if (mCamera->moving())
+	/*frameCounter++;
+	auto tEnd = std::chrono::high_resolution_clock::now();
+	auto tDiff = std::chrono::duration<double, std::milli>(tEnd - tStart).count();
+	frameTimer = (float)tDiff / 1000.0f;
+	mCamera->update(frameTimer);*/
+    // if (mCamera->moving())
     {
-         viewUpdated = true;
-    }*/
+        // viewUpdated = true;
+    }
 
 
 }
@@ -314,7 +308,10 @@ void QtOpenglFun::IniCamearMat() {
     mCamera->setRotation(glm::vec3(0.0f));
     mCamera->setPerspective(60.0f, (float)mWidth / (float)mHeight, 1.0f, 256.0f);
 
-
+    mProjection = mCamera->matrices.perspective;
+    mView = mCamera->matrices.view;
+    mModel = glm::mat4(1.0);
+    
 }
 
 void QtOpenglFun::handleMouseMove(int32_t x, int32_t y) {
@@ -338,10 +335,8 @@ void QtOpenglFun::handleMouseMove(int32_t x, int32_t y) {
 
     if (mouseButtons.left) {
         mCamera->rotate(glm::vec3(dy * mCamera->rotationSpeed, -dx * mCamera->rotationSpeed, 0.0f));
-        std::cout << "camera:" << &mCamera << std::endl;
         viewUpdated = true;
-        std::cout << "mouseButtonsLeft" << "dy" << dy * mCamera->rotationSpeed << "dx" << dx << std::endl;
-        std::cout << "secondmCamera" << &mCamera << std::endl;
+      
     }
     if (mouseButtons.right) {
         mCamera->translate(glm::vec3(-0.0f, 0.0f, dy * .005f));
