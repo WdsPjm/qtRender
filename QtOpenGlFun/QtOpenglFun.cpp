@@ -225,21 +225,21 @@ void QtOpenglFun::buildShader(std::string& vertShaderPath, std::string& framShad
     {
         if (temp == SHADERTYPE::PICTUREFIX)
         {
-            vertPaht = "..\\data\\shader\\vertexShader.vert";
-            fragPaht = "..\\data\\shader\\fragmentShader.frag";
+            vertPaht = "..\\..\\data\\shader\\vertexShader.vert";
+            fragPaht = "..\\..\\data\\shader\\fragmentShader.frag";
             std::cout << "load PICTUREFIX SHADER" << std::endl;
 
         }
         else if (temp == SHADERTYPE::DISCARD)
         {
-            vertPaht = "..\\data\\shader\\DiscardVertShader.vert";
-            fragPaht = "..\\data\\shader\\DiscardfragmentShader.frag";
+            vertPaht = "..\\..\\data\\shader\\DiscardVertShader.vert";
+            fragPaht = "..\\..\\data\\shader\\DiscardfragmentShader.frag";
             std::cout << "load DISCARD SHADER" << std::endl;
         }
         else
         {
-            vertPaht = "..\\data\\shader\\DefaultvertexShader.vert";
-            fragPaht = "..\\data\\shader\\DefaultfragmentShader.frag";
+            vertPaht = "..\\..\\data\\shader\\DefaultvertexShader.vert";
+            fragPaht = "..\\..\\data\\shader\\DefaultfragmentShader.frag";
         }
     }
 
@@ -281,7 +281,7 @@ void QtOpenglFun::setMat() {
     glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
     glm::mat4 view = glm::mat4(1.0f);
     glm::mat4 projection = glm::mat4(1.0f);
-  //  if (viewUpdated)
+   // if (viewUpdated)
     {
         //	viewUpdated = false;
         projection = mCamera->matrices.perspective;
@@ -300,10 +300,10 @@ void QtOpenglFun::setMat() {
     auto tDiff = std::chrono::duration<double, std::milli>(tEnd - tStart).count();
     frameTimer = (float)tDiff / 1000.0f;
     mCamera->update(frameTimer);
-    // if (mCamera->moving())
+    /* if (mCamera->moving())
     {
-        // viewUpdated = true;
-    }
+         viewUpdated = true;
+    }*/
 
 
 }
