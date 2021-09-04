@@ -13,7 +13,7 @@
 
 uint32_t width = 1920;
 uint32_t height = 1080;
-
+std::chrono::time_point<std::chrono::high_resolution_clock> lastTimestamp;
 //#include <thread>
 QtOpenglFun::QtOpenglFun() {
     mCamera = std::make_shared<Camera>();
@@ -48,6 +48,7 @@ void QtOpenglFun::QtRender() {
 void QtOpenglFun::QtInitRender() {
     std::string vertPaht;
     std::string fragPaht;
+    lastTimestamp = std::chrono::high_resolution_clock::now();
     if (!mRenderTypes.size())
     {
         return;
@@ -163,6 +164,7 @@ void QtOpenglFun::loadTexture(const std::string& texturePath, std::shared_ptr<Gl
 }
 
 void QtOpenglFun::startRender() {
+   
     setFrames();
     QtClearColor(0.3f, 0.5f, 0.4f, 1.0f);
     for (auto tempShader : mShaderTypes)
@@ -272,33 +274,38 @@ void QtOpenglFun::setWidthHeigth(int width, int height) {
 }
 uint32_t frameCounter = 0;
 float frameTimer = 1.0f;
+uint32_t lastFPS = 0;
 
 void QtOpenglFun::setMat() {
 
     auto tStart = std::chrono::high_resolution_clock::now();
     if (viewUpdated)
     {
-        //	viewUpdated = false;
+        viewUpdated = false;
         mProjection = mCamera->matrices.perspective;
         mView = mCamera->matrices.view;
     }
 
-	
-    mShader->setMat4("model", mModel);
-    mShader->setMat4("view", mView);
-    mShader->setMat4("projection", mProjection);
 
-
-	/*frameCounter++;
+	frameCounter++;
 	auto tEnd = std::chrono::high_resolution_clock::now();
 	auto tDiff = std::chrono::duration<double, std::milli>(tEnd - tStart).count();
 	frameTimer = (float)tDiff / 1000.0f;
-	mCamera->update(frameTimer);*/
-    // if (mCamera->moving())
+    std::cout << "frameTimer:" << frameTimer << std::endl;
+	mCamera->update(frameTimer);
+     if (mCamera->moving())
     {
-        // viewUpdated = true;
+       //  viewUpdated = true;
+		 mProjection = mCamera->matrices.perspective;
+		 mView = mCamera->matrices.view;
+         std::cout << std::fixed << std::setprecision(7);
+         std::cout << "mCamera->matrices.view:" <<mCamera->matrices.view[3][0] << std::endl;
+		
     }
 
+	 mShader->setMat4("model", mModel);
+	 mShader->setMat4("view", mView);
+	 mShader->setMat4("projection", mProjection);
 
 }
 
@@ -317,21 +324,8 @@ void QtOpenglFun::IniCamearMat() {
 void QtOpenglFun::handleMouseMove(int32_t x, int32_t y) {
     int32_t dx = (int32_t)mousePos.x - x;
     int32_t dy = (int32_t)mousePos.y - y;
-    // 	int32_t dx = x;
-    // 	int32_t dy = y;
-
+ 
     bool handled = false;
-
-    /*if (settings.overlay) {
-        ImGuiIO& io = ImGui::GetIO();
-        handled = io.WantCaptureMouse;
-    }*/
-    ///////mouseMoved((float)x, (float)y, handled);
-
-    /*if (handled) {
-        mousePos = glm::vec2((float)x, (float)y);
-        return;
-    }*/
 
     if (mouseButtons.left) {
         mCamera->rotate(glm::vec3(dy * mCamera->rotationSpeed, -dx * mCamera->rotationSpeed, 0.0f));

@@ -11,7 +11,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
+#include <iomanip>
 class Camera
 {
 private:
@@ -32,7 +32,8 @@ private:
 			translation.y *= -1.0f;
 		}
 		transM = glm::translate(glm::mat4(1.0f), translation);
-
+	
+		std::cout << std::fixed << std::setprecision(7);
 		if (type == CameraType::firstperson)
 		{
 			matrices.view = rotM * transM;
@@ -160,14 +161,16 @@ public:
 				camFront.z = cos(glm::radians(rotation.x)) * cos(glm::radians(rotation.y));
 				camFront = glm::normalize(camFront);
 
-				float moveSpeed = deltaTime * movementSpeed;
+				float moveSpeed = deltaTime * 10000 * movementSpeed ;
 
 				if (keys.up)
 					position += camFront * moveSpeed;
 				if (keys.down)
 					position -= camFront * moveSpeed;
 				if (keys.left)
+				{
 					position -= glm::normalize(glm::cross(camFront, glm::vec3(0.0f, 1.0f, 0.0f))) * moveSpeed;
+				}
 				if (keys.right)
 					position += glm::normalize(glm::cross(camFront, glm::vec3(0.0f, 1.0f, 0.0f))) * moveSpeed;
 

@@ -71,7 +71,7 @@ bool QtRendererVideo::event(QEvent *event) {
 void QtRendererVideo::Tick() {
 
      UpdateRender();
-    ImageFun::snap_shot(1920,1080);
+  //  ImageFun::snap_shot(512,512);
 }
 
 std::shared_ptr<QtOpenglFun>& QtRendererVideo::getQGlFunObj() {
@@ -98,6 +98,9 @@ bool QtRendererVideo::eventFilter(QObject *watched, QEvent *event) {
                 if (keyEvent->key() == Qt::Key_A)
                 {
                     mQtOpenglFun->getCameraType()->keys.left = true;
+					/*float x = QCursor::pos().x();
+					float y = QCursor::pos().y();
+					mQtOpenglFun->handleMouseMove(x, y);*/
                 }
                 else if (keyEvent->key() == Qt::Key_D)
                 {
@@ -111,6 +114,7 @@ bool QtRendererVideo::eventFilter(QObject *watched, QEvent *event) {
                 {
                     mQtOpenglFun->getCameraType()->keys.up = true;
                 }
+				
             }
 
         }

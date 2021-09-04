@@ -88,10 +88,14 @@ void ImageFun::snap_shot(int img_w, int img_h) {
 
     //glReadPixels(0, 0, img_w, img_h, GL_BGR_EXT, GL_UNSIGNED_BYTE, pPixelData);
     glReadPixels(0, 0, img_w, img_h, GL_RGB, GL_UNSIGNED_BYTE, pPixelData);
-
-    char temp[] ="./images/snapshot.bmp";
-
-    WriteBitmapFile(temp, img_w, img_h, pPixelData);
+	char buf[250] = { 0 };
+   
+    _snprintf_s(buf, 255, "%03d.jpg", numbe++);//1_00000
+    
+    char temp[] ="./images/snapshot.jpg";
+    std::string tempPaht = "./images/";
+    std::string resultPaht = tempPaht + buf;
+    WriteBitmapFile((char*)resultPaht.c_str(), img_w, img_h, pPixelData);
     free(pPixelData);
 
 }
