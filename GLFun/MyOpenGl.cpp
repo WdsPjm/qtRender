@@ -77,7 +77,7 @@ void MyOpenGl::createVbo(GLuint& locationVbo, vector<float>& allVertex ) {
 void MyOpenGl::createEbo(GLuint& locationEbo, vector<GLuint>& indexVertex) {
     glGenBuffers(1, &locationEbo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, locationEbo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexVertex), indexVertex.data(),GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexVertex.size()*sizeof(GLuint), indexVertex.data(),GL_STATIC_DRAW);
 }
 
 

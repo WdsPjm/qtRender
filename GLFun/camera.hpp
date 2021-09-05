@@ -33,7 +33,7 @@ private:
 		}
 		transM = glm::translate(glm::mat4(1.0f), translation);
 	
-		std::cout << std::fixed << std::setprecision(7);
+
 		if (type == CameraType::firstperson)
 		{
 			matrices.view = rotM * transM;

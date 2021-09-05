@@ -48,6 +48,7 @@ public:
     void QtClearColor(const float &red,const float &green, const float &blue, const float &alpha);
     void QtRender();
     void GeneData();
+    void GenSquareData();
     void bindVertex();
     void unBindBuffer();
     void loadTexture(const std::string& texturePath, std::shared_ptr<GlTexture2D>&);
@@ -74,7 +75,7 @@ private:
     std::shared_ptr<GlContext> mGlContex;
     std::shared_ptr<MyOpenGl>mMyOpengl;
     std::vector<float> mvertices;
-    std::vector<GLuint>mVerticesIndex;
+    std::vector<unsigned int>mVerticesIndex;
     std::vector<GLuint>mVBO;
     std::vector<GLuint>mVAO;
     std::vector<GLuint>mEBO;

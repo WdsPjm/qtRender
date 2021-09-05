@@ -14,6 +14,18 @@
 uint32_t width = 1920;
 uint32_t height = 1080;
 std::chrono::time_point<std::chrono::high_resolution_clock> lastTimestamp;
+std::vector< glm::vec3 >cubePositions = {
+	  // glm::vec3(0.0f,  0.0f,  0.0f),
+	 //  glm::vec3(2.0f,  5.0f, -15.0f),
+	  // glm::vec3(-1.5f, -2.2f, -2.5f),
+	 //  glm::vec3(-3.8f, -2.0f, -12.3f),
+	  // glm::vec3(2.4f, -0.4f, -3.5f),
+	  // glm::vec3(-1.7f,  3.0f, -7.5f),
+	  // glm::vec3(1.3f, -2.0f, -2.5f),
+	  // glm::vec3(1.5f,  2.0f, -2.5f),
+	   glm::vec3(1.5f,  0.0f, 0.0f),
+	   glm::vec3(-1.3f,  0.0f, 0.0f)
+};
 //#include <thread>
 QtOpenglFun::QtOpenglFun() {
     mCamera = std::make_shared<Camera>();
@@ -62,7 +74,8 @@ void QtOpenglFun::QtInitRender() {
         }
         else if (tempRenderType == RENDERTYPE::SQUARERENDER)
         {
-            GeneData();
+            //GeneData();
+            GenSquareData();
         }
     }
 
@@ -86,18 +99,85 @@ void QtOpenglFun::QtClearColor(const float& red, const float& green, const float
 
 void QtOpenglFun::GeneData() {
     mvertices = {    //color           uv
-            0.5f,-0.5f,0.0f,  0.9,0.3,0.5,  1.0f,0.0f,
-            0.5f,0.5f,0.0f,   0.2,0.5,0.1,  1.0f,1.0f,
-            -0.5f,0.5f,0.0f,  1.0,0.6,0.2,  0.0f,1.0f,
-            -0.5f,-0.5f,0.0f, 0.4,0.7,0.9,  0.0f,0.0f
+			0.5f,-0.5f,0.0f,  0.9,0.3,0.5,  1.0f,0.0f,
+			0.5f,0.5f,0.0f,   0.2,0.5,0.1,  1.0f,1.0f,
+			-0.5f,0.5f,0.0f,  1.0,0.6,0.2,  0.0f,1.0f,
+			-0.5f,-0.5f,0.0f, 0.4,0.7,0.9,  0.0f,0.0f,
+
     };
 
     mVerticesIndex =
     {
             0,1,2,
-            2,3,0
+            2,3,0,
+
+            4,5,6,
+            6,7,4
+
     };
 
+}
+
+
+void QtOpenglFun::GenSquareData()
+{
+	 mvertices = {
+	   -0.5f, -0.5f, -0.5f,  0.2,0.5,0.1, 0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,  0.9,0.3,0.5, 1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f,  1.0,0.6,0.2, 1.0f, 1.0f,
+	   -0.5f,  0.5f, -0.5f,  0.4,0.7,0.9, 0.0f, 1.0f,
+	 
+
+	   -0.5f, -0.5f,  0.5f, 0.2,0.5,0.1,  0.0f, 0.0f,
+		0.5f, -0.5f,  0.5f, 0.9,0.3,0.5,  1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f, 1.0,0.6,0.2,  1.0f, 1.0f,
+	   -0.5f,  0.5f,  0.5f, 0.4,0.7,0.9,  0.0f, 1.0f,
+
+
+	   -0.5f,  0.5f,  0.5f, 0.2,0.5,0.1, 1.0f, 0.0f,
+	   -0.5f,  0.5f, -0.5f, 0.9,0.3,0.5, 1.0f, 1.0f,
+	   -0.5f, -0.5f, -0.5f, 1.0,0.6,0.2, 0.0f, 1.0f,
+	   -0.5f, -0.5f,  0.5f, 0.4,0.7,0.9, 0.0f, 0.0f,
+
+
+		0.5f,  0.5f,  0.5f, 0.2,0.5,0.1, 1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f, 0.9,0.3,0.5, 1.0f, 1.0f,
+		0.5f, -0.5f, -0.5f, 1.0,0.6,0.2, 0.0f, 1.0f,
+		0.5f, -0.5f,  0.5f, 0.4,0.7,0.9, 0.0f, 0.0f,
+
+	   -0.5f, -0.5f, -0.5f, 0.2,0.5,0.1, 0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f, 0.9,0.3,0.5, 1.0f, 1.0f,
+		0.5f, -0.5f,  0.5f, 1.0,0.6,0.2, 1.0f, 0.0f,
+	   -0.5f, -0.5f,  0.5f, 0.4,0.7,0.9, 0.0f, 0.0f,
+
+
+	   -0.5f,  0.5f, -0.5f, 0.2,0.5,0.1, 0.0f, 1.0f,
+		0.5f,  0.5f, -0.5f, 0.9,0.3,0.5, 1.0f, 1.0f,
+		0.5f,  0.5f,  0.5f, 1.0,0.6,0.2, 1.0f, 0.0f,
+	   -0.5f,  0.5f,  0.5f, 0.4,0.7,0.9, 0.0f, 0.0f,
+
+	};
+
+     mVerticesIndex = {
+         0,1,2,
+         2,3,0,
+
+         4,5,6,
+         6,7,4,
+
+         8,9,10,
+         10,11,8,
+
+         12,13,14,
+         14,15,12,
+
+         16,17,18,
+         18,19,16,
+
+         20,21,22,
+         22,23,20
+
+     };
 }
 
 void QtOpenglFun::bindVertex() {
@@ -165,6 +245,7 @@ void QtOpenglFun::loadTexture(const std::string& texturePath, std::shared_ptr<Gl
 
 void QtOpenglFun::startRender() {
    
+    glEnable(GL_DEPTH_TEST);
     setFrames();
     QtClearColor(0.3f, 0.5f, 0.4f, 1.0f);
     for (auto tempShader : mShaderTypes)
@@ -190,7 +271,15 @@ void QtOpenglFun::startRender() {
     setMat();
     glBindVertexArray(mVAO[TRIANGLEVAO]);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBO[TRIANGLEEBO]);
-    glDrawElements(GL_TRIANGLES, mVerticesIndex.size(), GL_UNSIGNED_INT, nullptr);
+	for (int i = 0; i < cubePositions.size(); i++)
+	{
+		auto model = glm::translate(mModel, cubePositions[i]);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT,0);
+
+        //glDrawArrays(GL_TRIANGLES, 0, 36);
+        mShader->setMat4("model", model);
+	}
+    
     SwapBuffers(mGlContex->mdc);
 
 }
@@ -291,7 +380,7 @@ void QtOpenglFun::setMat() {
 	auto tEnd = std::chrono::high_resolution_clock::now();
 	auto tDiff = std::chrono::duration<double, std::milli>(tEnd - tStart).count();
 	frameTimer = (float)tDiff / 1000.0f;
-    std::cout << "frameTimer:" << frameTimer << std::endl;
+    
 	mCamera->update(frameTimer);
      if (mCamera->moving())
     {
@@ -302,7 +391,8 @@ void QtOpenglFun::setMat() {
          std::cout << "mCamera->matrices.view:" <<mCamera->matrices.view[3][0] << std::endl;
 		
     }
-
+     
+    
 	 mShader->setMat4("model", mModel);
 	 mShader->setMat4("view", mView);
 	 mShader->setMat4("projection", mProjection);
