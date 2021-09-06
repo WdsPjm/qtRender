@@ -10,6 +10,7 @@
 #include "../stbImage/stb_image.h"
 #include <tuple>
 #include <QTime>
+#include "ShaderSet.h"
 
 uint32_t width = 1920;
 uint32_t height = 1080;
@@ -26,6 +27,7 @@ std::vector< glm::vec3 >cubePositions = {
 	   glm::vec3(1.5f,  0.0f, 0.0f),
 	   glm::vec3(-1.3f,  0.0f, 0.0f)
 };
+
 //#include <thread>
 QtOpenglFun::QtOpenglFun() {
     mCamera = std::make_shared<Camera>();
@@ -79,15 +81,18 @@ void QtOpenglFun::QtInitRender() {
         }
     }
 
+
     buildShader(vertPaht, fragPaht);
     mVAO.resize(VAONUMBERS);
     mMyOpengl->createVaO(mVAO[TRIANGLEVAO]);
     mVBO.resize(VBONUMBERS);
     mMyOpengl->createVbo(mVBO[TRIANGLEVBO], mvertices);
-    bindVertex();
+    bindVertex(mVAO[TRIANGLEVAO]);
     //EBO
     mEBO.resize(EBONUMBERS);
     mMyOpengl->createEbo(mEBO[TRIANGLEEBO], mVerticesIndex);
+    mMyOpengl->createVaO(mVAO[LIGHTVAO]);
+    bindVertex(mVAO[LIGHTVAO]);
     unBindBuffer();
     assert(!glGetError());
 
@@ -180,7 +185,8 @@ void QtOpenglFun::GenSquareData()
      };
 }
 
-void QtOpenglFun::bindVertex() {
+void QtOpenglFun::bindVertex(GLuint vao) {
+    glBindVertexArray(vao);
     glEnableVertexAttribArray(0);//Genable Position
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)offsetof(VertexSt, position));
     glEnableVertexAttribArray(1);
@@ -266,20 +272,36 @@ void QtOpenglFun::startRender() {
 
     mShader->setFloat("mixValue", mMixValue);
     mShader->setFloat("discardValue", mDiscardValue);
-    mShader->shaderUse();
+   // mShader->shaderUse();
 
     setMat();
+    ShaderSet t(mShader,mModel,mView,mProjection);
+    t.setShader();
+    t.setLightObjColor("objectColor", 1.0f, 0.5f, 0.31f);
+    t.setLightObjColor("lightColor",  1.0f, 1.0f, 1.0f);
     glBindVertexArray(mVAO[TRIANGLEVAO]);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBO[TRIANGLEEBO]);
-	for (int i = 0; i < cubePositions.size(); i++)
+	//for (int i = 0; i < cubePositions.size(); i++)
 	{
-		auto model = glm::translate(mModel, cubePositions[i]);
+		auto model = glm::translate(mModel, cubePositions[1]);
+        mShader->setMat4("model", model);
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT,0);
 
         //glDrawArrays(GL_TRIANGLES, 0, 36);
-        mShader->setMat4("model", model);
+      
 	}
-    
+
+    ShaderSet light(mLightShader,mModel,mView,mProjection);
+    light.setShader();
+    glBindVertexArray(mVAO[LIGHTVAO]);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBO[TRIANGLEEBO]);
+
+	glm::vec3 lightPos (1.2f, 1.0f, 2.0f);
+    auto model1 = glm::translate(mModel, lightPos);
+    mLightShader->setMat4("model", model1);
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+
+    mShader->shaderUse();
     SwapBuffers(mGlContex->mdc);
 
 }
@@ -317,6 +339,7 @@ void QtOpenglFun::buildShader(std::string& vertShaderPath, std::string& framShad
         {
             vertPaht = "..\\shader\\vertexShader.vert";
             fragPaht = "..\\shader\\fragmentShader.frag";
+            mShader.reset(new GlShader(vertPaht, fragPaht));
             std::cout << "load PICTUREFIX SHADER" << std::endl;
 
         }
@@ -324,7 +347,14 @@ void QtOpenglFun::buildShader(std::string& vertShaderPath, std::string& framShad
         {
             vertPaht = "..\\shader\\DiscardVertShader.vert";
             fragPaht = "..\\shader\\DiscardfragmentShader.frag";
+            mShader.reset(new GlShader(vertPaht, fragPaht));
             std::cout << "load DISCARD SHADER" << std::endl;
+        }
+        else if (temp == SHADERTYPE::LIGHT)
+        {
+			vertPaht = "..\\shader\\light.vert";
+			fragPaht = "..\\shader\\light.frag";
+            mLightShader.reset(new GlShader(vertPaht, fragPaht));
         }
         else
         {
@@ -333,7 +363,6 @@ void QtOpenglFun::buildShader(std::string& vertShaderPath, std::string& framShad
         }
     }
 
-    mShader.reset(new GlShader(vertPaht, fragPaht));
 }
 
 void QtOpenglFun::setRenderType(RENDERTYPE renderType) {
@@ -391,11 +420,6 @@ void QtOpenglFun::setMat() {
          std::cout << "mCamera->matrices.view:" <<mCamera->matrices.view[3][0] << std::endl;
 		
     }
-     
-    
-	 mShader->setMat4("model", mModel);
-	 mShader->setMat4("view", mView);
-	 mShader->setMat4("projection", mProjection);
 
 }
 

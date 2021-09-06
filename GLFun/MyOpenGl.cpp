@@ -62,7 +62,7 @@ void MyOpenGl::RenderInit() {
 
 void MyOpenGl::createVaO( GLuint& locationVao) {
     glGenVertexArrays(1, &locationVao);
-    glBindVertexArray(locationVao);
+   /* glBindVertexArray(locationVao);*/
 
 }
 

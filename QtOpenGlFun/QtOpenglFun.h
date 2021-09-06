@@ -18,6 +18,7 @@ class GlContext;
 
 enum VAOTYPE{
     TRIANGLEVAO,
+    LIGHTVAO,
     VAONUMBERS
 
 };
@@ -49,7 +50,7 @@ public:
     void QtRender();
     void GeneData();
     void GenSquareData();
-    void bindVertex();
+    void bindVertex(GLuint vao);
     void unBindBuffer();
     void loadTexture(const std::string& texturePath, std::shared_ptr<GlTexture2D>&);
     void setmixValue(const float& mixValue);
@@ -72,6 +73,7 @@ public:
     } mouseButtons;
 private:
     std::shared_ptr<GlShader> mShader;
+    std::shared_ptr<GlShader> mLightShader;
     std::shared_ptr<GlContext> mGlContex;
     std::shared_ptr<MyOpenGl>mMyOpengl;
     std::vector<float> mvertices;

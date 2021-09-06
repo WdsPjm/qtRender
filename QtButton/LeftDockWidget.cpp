@@ -43,6 +43,7 @@ LeftDockWidget::~LeftDockWidget()
 void LeftDockWidget::slotPicturMix() {
    mRenderVideo->getQGlFunObj()->setRenderType(RENDERTYPE::SQUARERENDER);
    mRenderVideo->getQGlFunObj()->setShaderType(SHADERTYPE::PICTUREFIX);
+   mRenderVideo->getQGlFunObj()->setShaderType(SHADERTYPE::LIGHT);
    mRenderVideo->getQGlFunObj()->rEstartRender();
    mSlider->show();
 

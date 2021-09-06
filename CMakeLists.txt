@@ -24,7 +24,7 @@ set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt6::Gui Qt6::Widgets  glew32.lib  OpenGL3
 add_executable(${PROJECT_NAME} main.cpp QtRendererVideo.h QtRendererVideo.cpp QtEvent.h GLFun/GlShader.cpp GLFun/GlShader.h GLFun/GlContext.cpp GLFun/GlContext.h GLFun/MyOpenGl.cpp GLFun/MyOpenGl.h QtOpenGlFun/QtOpenglFun.cpp QtOpenGlFun/QtOpenglFun.h GLFun/GlTexture2D.cpp GLFun/GlTexture2D.h
         ../Soft/stbImage/stb_image.cpp RenderMainWindow.cpp RenderMainWindow.h QtButton/xslider.h QtButton/xslider.cpp QtButton/LeftDockWidget.cpp QtButton/LeftDockWidget.h QtButton/BottomDockWidget.cpp QtButton/BottomDockWidget.h QtButton/RightDockWidget.cpp QtButton/RightDockWidget.h
         QtButton/CommnDockWidget.cpp QtButton/CommnDockWidget.h QtButton/colorcombobox.cpp QtButton/colorcombobox.h
-        QtButton/colorbutton.cpp QtButton/colorbutton.h QtOpenGlFun/CommonGlobal.h Image/ImageFun.cpp Image/ImageFun.h GLFun/camera.hpp)
+        QtButton/colorbutton.cpp QtButton/colorbutton.h QtOpenGlFun/CommonGlobal.h Image/ImageFun.cpp Image/ImageFun.h GLFun/camera.hpp QtOpenGlFun/ShaderSet.cpp QtOpenGlFun/ShaderSet.h QtOpenGlFun/LightSet.cpp QtOpenGlFun/LightSet.h)
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "
