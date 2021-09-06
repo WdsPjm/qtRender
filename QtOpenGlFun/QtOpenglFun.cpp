@@ -315,21 +315,21 @@ void QtOpenglFun::buildShader(std::string& vertShaderPath, std::string& framShad
     {
         if (temp == SHADERTYPE::PICTUREFIX)
         {
-            vertPaht = "..\\..\\data\\shader\\vertexShader.vert";
-            fragPaht = "..\\..\\data\\shader\\fragmentShader.frag";
+            vertPaht = "..\\shader\\vertexShader.vert";
+            fragPaht = "..\\shader\\fragmentShader.frag";
             std::cout << "load PICTUREFIX SHADER" << std::endl;
 
         }
         else if (temp == SHADERTYPE::DISCARD)
         {
-            vertPaht = "..\\..\\data\\shader\\DiscardVertShader.vert";
-            fragPaht = "..\\..\\data\\shader\\DiscardfragmentShader.frag";
+            vertPaht = "..\\shader\\DiscardVertShader.vert";
+            fragPaht = "..\\shader\\DiscardfragmentShader.frag";
             std::cout << "load DISCARD SHADER" << std::endl;
         }
         else
         {
-            vertPaht = "..\\..\\data\\shader\\DefaultvertexShader.vert";
-            fragPaht = "..\\..\\data\\shader\\DefaultfragmentShader.frag";
+            vertPaht = "..\\shader\\DefaultvertexShader.vert";
+            fragPaht = "..\\shader\\DefaultfragmentShader.frag";
         }
     }
 
