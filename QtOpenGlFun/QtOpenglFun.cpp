@@ -31,6 +31,7 @@ std::vector< glm::vec3 >cubePositions = {
 //#include <thread>
 QtOpenglFun::QtOpenglFun() {
     mCamera = std::make_shared<Camera>();
+    mLightPos = glm::vec3(1.0f,0.5f,3.0f);
 
 }
 
@@ -127,39 +128,39 @@ void QtOpenglFun::GeneData() {
 void QtOpenglFun::GenSquareData()
 {
 	 mvertices = {
-	   -0.5f, -0.5f, -0.5f,  0.2,0.5,0.1, 0.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,  0.9,0.3,0.5, 1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,  1.0,0.6,0.2, 1.0f, 1.0f,
-	   -0.5f,  0.5f, -0.5f,  0.4,0.7,0.9, 0.0f, 1.0f,
-	 
-
-	   -0.5f, -0.5f,  0.5f, 0.2,0.5,0.1,  0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f, 0.9,0.3,0.5,  1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f, 1.0,0.6,0.2,  1.0f, 1.0f,
-	   -0.5f,  0.5f,  0.5f, 0.4,0.7,0.9,  0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f, 0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f, 0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+	   -0.5f,  0.5f, -0.5f, 0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
+	   -0.5f, -0.5f, -0.5f, 0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
 
 
-	   -0.5f,  0.5f,  0.5f, 0.2,0.5,0.1, 1.0f, 0.0f,
-	   -0.5f,  0.5f, -0.5f, 0.9,0.3,0.5, 1.0f, 1.0f,
-	   -0.5f, -0.5f, -0.5f, 1.0,0.6,0.2, 0.0f, 1.0f,
-	   -0.5f, -0.5f,  0.5f, 0.4,0.7,0.9, 0.0f, 0.0f,
+	   -0.5f, -0.5f,  0.5f, 0.0f,  0.0f,  1.0f,  0.0f, 0.0f,
+		0.5f, -0.5f,  0.5f, 0.0f,  0.0f,  1.0f,  1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f, 0.0f,  0.0f,  1.0f,  1.0f, 1.0f,
+	   -0.5f,  0.5f,  0.5f, 0.0f,  0.0f,  1.0f,  0.0f, 1.0f,
 
 
-		0.5f,  0.5f,  0.5f, 0.2,0.5,0.1, 1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f, 0.9,0.3,0.5, 1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f, 1.0,0.6,0.2, 0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f, 0.4,0.7,0.9, 0.0f, 0.0f,
-
-	   -0.5f, -0.5f, -0.5f, 0.2,0.5,0.1, 0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f, 0.9,0.3,0.5, 1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f, 1.0,0.6,0.2, 1.0f, 0.0f,
-	   -0.5f, -0.5f,  0.5f, 0.4,0.7,0.9, 0.0f, 0.0f,
+	   -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f,
+	   -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f,
+	   -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f,
+	   -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f,
 
 
-	   -0.5f,  0.5f, -0.5f, 0.2,0.5,0.1, 0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f, 0.9,0.3,0.5, 1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f, 1.0,0.6,0.2, 1.0f, 0.0f,
-	   -0.5f,  0.5f,  0.5f, 0.4,0.7,0.9, 0.0f, 0.0f,
+		0.5f,  0.5f,  0.5f, 1.0f,  0.0f,  0.0f, 1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f, 1.0f,  0.0f,  0.0f, 1.0f, 1.0f,
+		0.5f, -0.5f, -0.5f, 1.0f,  0.0f,  0.0f, 0.0f, 1.0f,
+		0.5f, -0.5f,  0.5f, 1.0f,  0.0f,  0.0f, 0.0f, 0.0f,
+
+	   -0.5f, -0.5f, -0.5f, 0.0f, -1.0f,  0.0f, 0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f, 0.0f, -1.0f,  0.0f, 1.0f, 1.0f,
+		0.5f, -0.5f,  0.5f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f,
+	   -0.5f, -0.5f,  0.5f, 0.0f, -1.0f,  0.0f, 0.0f, 0.0f,
+
+
+	   -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f,
+		0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f,
+	   -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, 0.0f, 0.0f,
 
 	};
 
@@ -272,6 +273,8 @@ void QtOpenglFun::startRender() {
 
     mShader->setFloat("mixValue", mMixValue);
     mShader->setFloat("discardValue", mDiscardValue);
+    mShader->setVec3("lightPos", mLightPos.x,mLightPos.y, mLightPos.z);
+    mShader->setVec3("viewPos", mCamera->position.x,mCamera->position.y,mCamera->position.z);
    // mShader->shaderUse();
 
     setMat();
@@ -279,6 +282,7 @@ void QtOpenglFun::startRender() {
     t.setShader();
     t.setLightObjColor("objectColor", 1.0f, 0.5f, 0.31f);
     t.setLightObjColor("lightColor",  1.0f, 1.0f, 1.0f);
+
     glBindVertexArray(mVAO[TRIANGLEVAO]);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBO[TRIANGLEEBO]);
 	//for (int i = 0; i < cubePositions.size(); i++)
@@ -296,8 +300,9 @@ void QtOpenglFun::startRender() {
     glBindVertexArray(mVAO[LIGHTVAO]);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBO[TRIANGLEEBO]);
 
-	glm::vec3 lightPos (1.2f, 1.0f, 2.0f);
-    auto model1 = glm::translate(mModel, lightPos);
+	//glm::vec3 lightPos (1.2f, 1.0f, 2.0f);
+    auto model1 = glm::translate(mModel, mLightPos);
+    model1 = glm::scale(model1, glm::vec3(0.2f));
     mLightShader->setMat4("model", model1);
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
