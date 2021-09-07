@@ -1,0 +1,4 @@
+D:/clionCode/Code/qtRender/cmake-build-debug/CMakeFiles/QtOpengl.dir
+D:/clionCode/Code/qtRender/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/clionCode/Code/qtRender/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+D:/clionCode/Code/qtRender/cmake-build-debug/CMakeFiles/QtOpengl_autogen.dir
