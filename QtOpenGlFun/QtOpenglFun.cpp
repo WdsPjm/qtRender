@@ -11,6 +11,7 @@
 #include <tuple>
 #include <QTime>
 #include "ShaderSet.h"
+#include "GLFW/glfw3.h"
 
 uint32_t width = 1920;
 uint32_t height = 1080;
@@ -200,12 +201,12 @@ void QtOpenglFun::bindVertex(GLuint vao) {
         if (tempShader == SHADERTYPE::PICTUREFIX)
         {
             std::string imagePath1 = "H:\\c++train\\QtOpengl\\x64\\resources\\textures\\container2.png"; //container
-            std::string imagePath2 = "H:\\c++train\\QtOpengl\\x64\\resources\\textures\\bricks2_disp.jpg";
+            std::string imagePath2 = "H:\\c++train\\QtOpengl\\x64\\resources\\textures\\matrix.jpg";
             loadTexture(imagePath1, mTexture1);
             loadTexture(imagePath2, mTexture2);
             mShader->shaderUse();
-            mShader->setInt("samp1", 0);
-            mShader->setInt("samp2", 1);
+            mShader->setInt("material.diffuse", 0);
+            mShader->setInt("material.specular", 1);
         }
         else if (tempShader == SHADERTYPE::DISCARD)
         {
@@ -273,8 +274,28 @@ void QtOpenglFun::startRender() {
 
     mShader->setFloat("mixValue", mMixValue);
     mShader->setFloat("discardValue", mDiscardValue);
-    mShader->setVec3("lightPos", mLightPos.x,mLightPos.y, mLightPos.z);
+    mShader->setVec3("light.position", mLightPos.x,mLightPos.y, mLightPos.z);
     mShader->setVec3("viewPos", mCamera->position.x,mCamera->position.y,mCamera->position.z);
+
+//    glm::vec3 lightColor;
+//    lightColor.x = sin(glfwGetTime()*2.0f);
+//    lightColor.y = sin(glfwGetTime()*0.7f);
+//    lightColor.z = sin(glfwGetTime()*1.3f);
+   // glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
+   //glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
+
+    //light properties
+    mShader->setVec3("light.ambient", 0.2f,0.2f,0.2f);
+    mShader->setVec3("light.diffuse", 0.5f,0.5f,0.5f);
+    mShader->setVec3("light.specular", 1.0f,1.0f,1.0f);
+
+    //material properties
+  //  mShader->setVec3("material.ambient",1.0f,0.5f,0.31f);
+   // mShader->setVec3("material.diffuse", 1.0f,0.5f,0.31f);
+   // mShader->setVec3("material.specular", 0.5f,0.5f,0.5f);
+    mShader->setFloat("material.shininess",64.0f);
+    mShader->setFloat("matrixlight", (1.0+sin(glfwGetTime()))/2+0.5);
+    mShader->setFloat("matrixmove", glfwGetTime()*0.5);
    // mShader->shaderUse();
 
     setMat();
@@ -342,8 +363,10 @@ void QtOpenglFun::buildShader(std::string& vertShaderPath, std::string& framShad
     {
         if (temp == SHADERTYPE::PICTUREFIX)
         {
-            vertPaht = "..\\shader\\vertexShader.vert";
-            fragPaht = "..\\shader\\fragmentShader.frag";
+//            vertPaht = "..\\shader\\vertexShader.vert";
+//            fragPaht = "..\\shader\\fragmentShader.frag";
+            vertPaht = "..\\shader\\material.vert";
+            fragPaht = "..\\shader\\material.frag";
             mShader.reset(new GlShader(vertPaht, fragPaht));
             std::cout << "load PICTUREFIX SHADER" << std::endl;
 
